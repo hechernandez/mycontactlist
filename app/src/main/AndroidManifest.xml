@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.hector.p1p2" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.hector.p1p2.ContactListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.hector.p1p2.EditContactActivity"
+            android:label="@string/title_activity_edit_contact"
+            android:parentActivityName="com.example.hector.p1p2.ContactListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.hector.p1p2.ContactListActivity" />
+        </activity>
+        <activity
+            android:name="com.example.hector.p1p2.NewAddressActivity"
+            android:label="@string/title_activity_new_address"
+            android:parentActivityName="com.example.hector.p1p2.EditContactActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.hector.p1p2.EditContactActivity" />
+        </activity>
+        <activity
+            android:name="com.example.hector.p1p2.NewContactActivity"
+            android:label="@string/title_activity_new_contact"
+            android:parentActivityName="com.example.hector.p1p2.ContactListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.hector.p1p2.ContactListActivity" />
+        </activity>
+        <activity
+            android:name="com.example.hector.p1p2.ShowContactActivity"
+            android:label="@string/title_activity_show_contact"
+            android:parentActivityName="com.example.hector.p1p2.EditContactActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.hector.p1p2.EditContactActivity" />
+        </activity>
+    </application>
+
+</manifest>
