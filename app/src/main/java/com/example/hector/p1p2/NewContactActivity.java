@@ -26,9 +26,9 @@ public class NewContactActivity extends ActionBarActivity {
         this.cellP = ((EditText)findViewById(R.id.cellPhone));
         this.workP = ((EditText)findViewById(R.id.workPhone));
         this.eMail = ((EditText)findViewById(R.id.email));
-        ContactsManager.addContact(new Contact(100000000, this.firstN.getText().toString(), this.lastN.getText().toString(), this.cellP.getText().toString(), this.workP.getText().toString(), this.eMail.getText().toString(), null));
+        ContactsManager.addContact(new Contact(this.firstN.getText().toString(), this.lastN.getText().toString(), this.cellP.getText().toString(), this.workP.getText().toString(), this.eMail.getText().toString()));
         store.clear(this);
-        store.writeContacts(ContactsManager.getContacts(), this);
+        store.writeContacts(ContactsManager.getContactsFromList(), this);
         startActivity(new Intent(this, ContactListActivity.class));
     }
 

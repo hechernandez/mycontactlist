@@ -40,5 +40,6 @@
     <string name="title_activity_new_address">NewAddressActivity</string>
     <string name="title_activity_new_contact">NewContactActivity</string>
     <string name="title_activity_show_contact">ShowContactActivity</string>
+    <string name="contactGet">Get Contact List</string>
 
 </resources>

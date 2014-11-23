@@ -250,9 +250,9 @@
                 android:inputType="none" />
         </LinearLayout>
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/deleteButton1"
             style="@style/Base.V7.Theme.AppCompat.Light"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
@@ -332,6 +332,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5.0"
                 android:inputType="none"
+                android:text="City"
                 android:hint="@string/City2" />
         </LinearLayout>
 
@@ -354,6 +355,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5.0"
                 android:inputType="none"
+                android:text="State"
                 android:hint="@string/State2" />
         </LinearLayout>
 
@@ -376,12 +378,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5.0"
                 android:hint="@string/ZipCode2"
+                android:text="City"
                 android:inputType="none" />
         </LinearLayout>
         <Button
             android:id="@+id/deleteButtonWork"
             style="@style/Base.V7.Theme.AppCompat.Light"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"

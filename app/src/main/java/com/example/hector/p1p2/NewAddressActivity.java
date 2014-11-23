@@ -38,8 +38,8 @@ public class NewAddressActivity extends ActionBarActivity {
                                 newAddress[3] = this.city.getText().toString();
                                         newAddress[4] = this.state.getText().toString();
                                                 newAddress[5] = this.zipCode.getText().toString();
-        ContactsManager.getContact(paramInt).addAddress(newAddress);
-        ContactsManager.writeContacts(ContactsManager.getContacts(), this);
+        ContactsManager.getContactFromList(paramInt).addAddress(newAddress);
+        ContactsManager.writeContacts(ContactsManager.getContactsFromList(), this);
         Intent localIntent = new Intent(this, EditContactActivity.class);
         localIntent.putExtra("Position", paramInt);
         Toast.makeText(getApplicationContext(), "Address Created", Toast.LENGTH_SHORT).show();

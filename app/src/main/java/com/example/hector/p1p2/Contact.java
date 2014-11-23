@@ -15,8 +15,23 @@ public class Contact implements Serializable, Comparable<Contact> {
 	private ArrayList<String[]> address = new ArrayList<String[]>();
 
     public Contact(){
-    }
 
+    }
+    public Contact(String fN, String lN, String cP, String wP, String e) {
+        this.firstName = fN;
+        this.lastName = lN;
+        this.cellPhone = cP;
+        this.workPhone = wP;
+        this.email = e;
+    }
+    public Contact(long iD, String fN, String lN, String cP, String wP, String e){
+        this.Id = iD;
+        this.firstName = fN;
+        this.lastName = lN;
+        this.cellPhone = cP;
+        this.workPhone = wP;
+        this.email = e;
+    }
     public Contact(long iD, String fN, String lN, String cP, String wP, String e, ArrayList<String[]> a){
     	this.Id = iD;
         this.firstName = fN;
@@ -102,6 +117,7 @@ public class Contact implements Serializable, Comparable<Contact> {
     public ArrayList<String[]> getAddressList() {
     	return this.address;
     }
+
     @Override
     public String toString(){
         return "(" + this.getFirstName() + " " + this.getLastName() +")";

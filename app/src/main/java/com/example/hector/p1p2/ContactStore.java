@@ -5,175 +5,159 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class ContactStore
-{
-  private static final int ADDRESS_FIELDS_LIMIT = 6;
-  private static final int CONTACTS_FIELDS_LIMIT = 5;
-  private BufferedReader buffStreamReader;
-  private InputStream inputStream;
-  private InputStreamReader inputStreamReader;
-  private OutputStreamWriter output;
-  private BufferedWriter writer;
-  
-  /* Error */
-  public void clear(Context paramContext)
-  {
-  }
-  
-  public SortedArrayList<Contact> contactReader(InputStream paramInputStream, Context paramContext)
-  {
-    for (;;)
-    {
-      try
-      {
-        this.inputStream = paramInputStream;
-        this.inputStreamReader = new InputStreamReader(this.inputStream);
-        this.buffStreamReader = new BufferedReader(this.inputStreamReader);
-        String str = new String();
-        str = this.buffStreamReader.readLine();
-        if (str != null) {
-          continue;
-        }
-        this.inputStreamReader.close();
-        this.buffStreamReader.close();
-      }
-      catch (Exception localException)
-      {
-        String str;
-        Contact localContact;
-        int i;
-        ContactAddress localContactAddress;
-        int j;
-        Log.e("Contact List Activity", "Error locating file: " + localException.toString());
-        localException.printStackTrace();
-        continue;
-        switch (i)
-        {
-        default: 
-          str = this.buffStreamReader.readLine();
-          i++;
-          break;
-        case 0: 
-          localContact.setFirstName(str);
-          break;
-        case 1: 
-          localContact.setLastName(str);
-          break;
-        case 2: 
-          localContact.setCellPhone(str);
-          break;
-        case 3: 
-          localContact.setWorkPhone(str);
-          break;
-        case 4: 
-          localContact.setEmail(str);
-          continue;
-          str = this.buffStreamReader.readLine();
-          j++;
-          continue;
-          localContactAddress.setName(str);
-          continue;
-          localContactAddress.setStreet(str);
-          continue;
-          localContactAddress.setNumber(str);
-          continue;
-          localContactAddress.setCity(str);
-          continue;
-          localContactAddress.setState(str);
-          continue;
-          localContactAddress.setZip(str);
-          continue;
-          switch (j)
-          {
-          }
-          break;
-        }
-      }
-      return ContactsManager.getContacts();
-      localContact = new Contact();
-      i = 0;
-      if (i < 5) {
-        continue;
-      }
-      localContactAddress = new ContactAddress();
-      j = 0;
-      if (j < 6) {
-        continue;
-      }
-      localContact.addAddress(localContactAddress);
-      ContactsManager.addContact(localContact);
+
+public class ContactStore {
+
+    private FileInputStream input;
+    private BufferedReader br;
+    private InputStreamReader inputStream;
+    private static final String contacts_file = "contactList.txt";
+    private OutputStreamWriter output;
+    private BufferedWriter writer;
+
+    private final int CONTACT_FIELDS = 5;
+    private final int ADDRESS_FIELDS = 6;
+
+    public ContactStore() {
     }
-  }
-  
-  public void writeContacts(SortedArrayList<Contact> paramSortedArrayList, Context paramContext)
-  {
-    for (;;)
-    {
-      try
-      {
-        this.output = new OutputStreamWriter(paramContext.openFileOutput("contactList.txt", 0));
-        this.writer = new BufferedWriter(this.output);
-        int i = 0;
-        if (i >= paramSortedArrayList.size())
-        {
-          this.writer.close();
-          this.output.close();
-          return;
+
+    /**
+     * Obtains contacts in file.
+     */
+    public SortedArrayList<Contact> readContacts(FileInputStream in) {
+
+        try {
+
+            this.input = in; //initialize fileinputstream
+            inputStream = new InputStreamReader(this.input); //initialize inputstreamreader
+            br = new BufferedReader(inputStream); //initialize our reader
+
+        } catch(Exception e) {
+            e.getStackTrace();
         }
-        Contact localContact = (Contact)paramSortedArrayList.get(i);
-        this.writer.write(localContact.getFirstName() + "\n");
-        this.writer.write(localContact.getLastName() + "\n");
-        this.writer.write(localContact.getCellPhone() + "\n");
-        this.writer.write(localContact.getWorkPhone() + "\n");
-        this.writer.write(localContact.getEmail() + "\n");
-        if ((!((ContactAddress)localContact.getAddressList().get(0)).equals(null)) && (((ContactAddress)localContact.getAddressList().get(1)).equals(null)))
-        {
-          this.writer.write(((ContactAddress)localContact.getAddressList().get(0)).getName() + "\n");
-          this.writer.write(((ContactAddress)localContact.getAddressList().get(0)).getStreet() + "\n");
-          this.writer.write(((ContactAddress)localContact.getAddressList().get(0)).getNumber() + "\n");
-          this.writer.write(((ContactAddress)localContact.getAddressList().get(0)).getCity() + "\n");
-          this.writer.write(((ContactAddress)localContact.getAddressList().get(0)).getState() + "\n");
-          this.writer.write(((ContactAddress)localContact.getAddressList().get(0)).getZip() + "\n");
+
+        try{
+
+            String line = br.readLine();
+
+            while (line != null) {
+                Contact temp = new Contact();
+                for(int i=0; i < CONTACT_FIELDS; i++){ //from first name to addressfields
+                    if(i == 0){
+                        System.out.println(line);
+                        System.out.println(Long.valueOf(line.substring(2)));
+                        temp.setId(Long.valueOf(line.substring(2))); // extract id number from format id#
+                    }
+                    if(i == 1){
+                        System.out.println(line);
+                        temp.setFirstName(line);
+                    }
+                    if(i == 2){
+                        System.out.println(line);
+                        temp.setLastName(line);
+                    }
+                    if(i == 3){
+                        System.out.println(line);
+                        temp.setCellPhone(line);
+                    }
+                    if(i == 4){
+                        System.out.println(line);
+                        temp.setWorkPhone(line);
+                    }
+                    if(i == 5){
+                        System.out.println(line);
+                        temp.setEmail(line);
+                    }
+                    line = br.readLine();
+                }
+
+                while(!line.contains("address")) {
+
+                    String[] contactAddress = new String[6];
+
+                    for (int i = 0; i < ADDRESS_FIELDS; i++) {
+
+                        contactAddress[i] = line;
+
+                        line = br.readLine();
+                    }
+                    temp.addAddress(contactAddress);
+                    ContactsManager.addContact(temp);
+                    Log.i("Testing Reader:", temp.getFirstName() + temp.getLastName() + temp.getCellPhone() + temp.getWorkPhone() + temp.getEmail());
+                }
+            }
+            inputStream.close();
+            br.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if (localContact.getNumberOfAddresses() > 0)
-        {
-          int j = 0;
-          if (j < localContact.getNumberOfAddresses())
-          {
-            ContactAddress localContactAddress = (ContactAddress)localContact.getAddressList().get(j);
-            this.writer.write(localContactAddress.getName() + "\n");
-            this.writer.write(localContactAddress.getStreet() + "\n");
-            this.writer.write(localContactAddress.getNumber() + "\n");
-            this.writer.write(localContactAddress.getCity() + "\n");
-            this.writer.write(localContactAddress.getState() + "\n");
-            this.writer.write(localContactAddress.getZip() + "\n");
-            j++;
-            continue;
-          }
-        }
-        i++;
-      }
-      catch (Exception localException)
-      {
-        Log.e("Cannot start program.", "File not found: " + localException.toString());
-        localException.printStackTrace();
-        return;
-      }
+
+        return ContactsManager.getContactsFromList();
     }
-  }
+
+    public void writeContacts(SortedArrayList<Contact> contacts, Context context){
+
+        try{
+
+            output = new OutputStreamWriter(context.openFileOutput(contacts_file, Context.MODE_PRIVATE));
+            writer = new BufferedWriter(output);
+
+            writer.write("");
+
+            for(int i=0; i < contacts.size(); i++){
+                Contact temp = contacts.get(i);
+                if ( temp.getId() != 0 )
+                    writer.write("id" + temp.getId() + "\n\n");
+                writer.write(temp.getFirstName() + "\n");
+                writer.write(temp.getLastName() + "\n");
+                writer.write(temp.getCellPhone() + "\n");
+                writer.write(temp.getWorkPhone() + "\n");
+                writer.write(temp.getEmail() + "\n");
+
+                for (int j = 0; j < temp.getNumberOfAddresses(); ++j){
+                    if (temp.getAddress(j) != null) {
+                        for (int k = 0; k < ADDRESS_FIELDS; ++k)
+                            writer.write(temp.getAddress(j)[k]+"\n");
+                    } else {
+                        writer.write("N/A" + "\n");
+                        writer.write("N/A" + "\n");
+                        writer.write("N/A" + "\n");
+                        writer.write("N/A" + "\n");
+                        writer.write("N/A" + "\n");
+                        writer.write("N/A" + "\n");
+              }
+                }
+            }
+
+            writer.close();
+            output.close();
+
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void clear(Context context) {
+        try {
+            output = new OutputStreamWriter(context.openFileOutput(contacts_file, Context.MODE_PRIVATE));
+            writer = new BufferedWriter(output);
+            writer.write("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
 
-
-
-
-/* Location:           C:\TUTORIAL\app\classes-dex2jar.jar
-
- * Qualified Name:     mycontacts2.icom4035.edu.uprm.ece.mycontacts2.ContactStore
-
- * JD-Core Version:    0.7.1
-
- */

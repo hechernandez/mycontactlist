@@ -12,10 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 public class EditContactActivity
         extends ActionBarActivity
 {
@@ -34,15 +30,10 @@ public class EditContactActivity
         super.onCreate(paramBundle);
         setContentView(R.layout.activity_edit_contact);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
-        try
-        {
-            FileInputStream fin = openFileInput("contactList.txt");
-            this.contactList = ContactsManager.readContacts(fin, this);
-            fin.close();
             Intent i = getIntent();
             Bundle b = i.getExtras();
             this.position = b.getInt("Position");
-            Contact currentContact = ContactsManager.getContact(this.position);
+            Contact currentContact = ContactsManager.getContactFromList(this.position);
             this.nameField = ((EditText)findViewById(R.id.firstNameEdit));
             this.nameField.setText(currentContact.getFirstName());
             this.lastNameField = ((EditText)findViewById(R.id.lastNameEdit));
@@ -78,8 +69,8 @@ public class EditContactActivity
             {
                 public void onClick(View paramAnonymousView)
                 {
-                    ContactsManager.editContact(EditContactActivity.this.position, EditContactActivity.this.nameField.getText().toString(), EditContactActivity.this.lastNameField.getText().toString(), EditContactActivity.this.numberField.getText().toString(), EditContactActivity.this.workNumberField.getText().toString(), EditContactActivity.this.emailField.getText().toString(), ContactsManager.getContact(EditContactActivity.this.position).getAddressList());
-                    ContactsManager.writeContacts(ContactsManager.getContacts(), EditContactActivity.this);
+                    ContactsManager.editContact(EditContactActivity.this.position, EditContactActivity.this.nameField.getText().toString(), EditContactActivity.this.lastNameField.getText().toString(), EditContactActivity.this.numberField.getText().toString(), EditContactActivity.this.workNumberField.getText().toString(), EditContactActivity.this.emailField.getText().toString(), ContactsManager.getContactFromList(EditContactActivity.this.position).getAddressList());
+                    ContactsManager.writeContacts(ContactsManager.getContactsFromList(), EditContactActivity.this);
                     Toast.makeText(EditContactActivity.this.getApplicationContext(), "Contact Edited", Toast.LENGTH_SHORT).show();
                     Intent localIntent = new Intent(paramAnonymousView.getContext(), ContactListActivity.class);
                     EditContactActivity.this.startActivity(localIntent);
@@ -89,29 +80,13 @@ public class EditContactActivity
             {
                 public void onClick(View paramAnonymousView)
                 {
-                    ContactsManager.deleteContact(EditContactActivity.this.position);
-                    ContactsManager.writeContacts(ContactsManager.getContacts(), EditContactActivity.this);
+                    ContactsManager.deleteContactFromList(EditContactActivity.this.position);
+                    ContactsManager.writeContacts(ContactsManager.getContactsFromList(), EditContactActivity.this);
                     Toast.makeText(EditContactActivity.this.getApplicationContext(), "Contact Deleted", Toast.LENGTH_SHORT).show();
                     Intent localIntent = new Intent(paramAnonymousView.getContext(), ContactListActivity.class);
                     EditContactActivity.this.startActivity(localIntent);
                 }
             });
-            return;
-        }
-        catch (FileNotFoundException localFileNotFoundException)
-        {
-            for (;;)
-            {
-                localFileNotFoundException.printStackTrace();
-            }
-        }
-        catch (IOException localIOException)
-        {
-            for (;;)
-            {
-                localIOException.printStackTrace();
-            }
-        }
     }
 
     public boolean onCreateOptionsMenu(Menu paramMenu)

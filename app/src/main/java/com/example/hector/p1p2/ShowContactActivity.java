@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class ShowContactActivity extends ActionBarActivity {
@@ -21,7 +22,7 @@ public class ShowContactActivity extends ActionBarActivity {
         this.i = getIntent();
         this.b = this.i.getExtras();
         this.position = this.b.getInt("Position");
-        this.currentContact = ContactsManager.getContact(this.position);
+        this.currentContact = ContactsManager.getContactFromList(this.position);
         ((TextView)findViewById(R.id.firstName_show)).setText(this.currentContact.getFirstName());
         ((TextView)findViewById(R.id.lastName_show)).setText(this.currentContact.getLastName());
         ((TextView)findViewById(R.id.cell_phone_show)).setText(this.currentContact.getCellPhone());
@@ -32,11 +33,11 @@ public class ShowContactActivity extends ActionBarActivity {
             if (this.currentContact.getNumberOfAddresses() == 1)
             {
                 ((TextView)findViewById(R.id.home_address)).setText(this.currentContact.getAddressList().get(0)[0]);
-                ((TextView)findViewById(R.id.street)).setText(this.currentContact.getAddressList().get(1)[0]);
-                ((TextView)findViewById(R.id.number)).setText(this.currentContact.getAddressList().get(2)[0]);
-                ((TextView)findViewById(R.id.city)).setText(this.currentContact.getAddressList().get(3)[0]);
-                ((TextView)findViewById(R.id.state)).setText(this.currentContact.getAddressList().get(4)[0]);
-                ((TextView)findViewById(R.id.zip_code)).setText(this.currentContact.getAddressList().get(5)[0]);
+                ((TextView)findViewById(R.id.street)).setText(this.currentContact.getAddressList().get(0)[1]);
+                ((TextView)findViewById(R.id.number)).setText(this.currentContact.getAddressList().get(0)[2]);
+                ((TextView)findViewById(R.id.city)).setText(this.currentContact.getAddressList().get(0)[3]);
+                ((TextView)findViewById(R.id.state)).setText(this.currentContact.getAddressList().get(0)[4]);
+                ((TextView)findViewById(R.id.zip_code)).setText(this.currentContact.getAddressList().get(0)[5]);
             }
             if (this.currentContact.getNumberOfAddresses() == 2)
             {
@@ -49,6 +50,27 @@ public class ShowContactActivity extends ActionBarActivity {
             }
         }
 
+        findViewById(R.id.deleteButton1).setOnClickListener(new View.OnClickListener()
+        {
+
+            public void onClick(View paramAnonymousView)
+            {
+                ContactsManager.deleteAddress(0, position);
+                Intent localIntent = new Intent(getApplicationContext(), EditContactActivity.class);
+                localIntent.putExtra("Position", position);
+                startActivity(localIntent);
+            }
+        });
+        findViewById(R.id.deleteButtonWork).setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View paramAnonymousView)
+            {
+                ContactsManager.deleteAddress(1, position);
+                Intent localIntent = new Intent(getApplicationContext(), EditContactActivity.class);
+                localIntent.putExtra("Position", position);
+                startActivity(localIntent);
+            }
+        });
     }
 
 

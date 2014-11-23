@@ -9,24 +9,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="icom4035.ece.uprm.edu.p1phase2.ContactList" >
 
-    <ImageButton
+    <Button
+        android:id="@+id/getButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="getContactList"
+        android:text="@string/contactGet" />
+
+    <Button
         android:id="@+id/speakButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text1"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:layout_marginTop="5dp"
-        android:src="@android:drawable/ic_btn_speak_now" />
+        android:onClick="speakButtonClicked"
+        android:text="@string/voiceSearch"/>
 
     <Button
         android:id="@+id/addButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text1"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:onClick="Add a Contact"
         android:text="@string/contactAdd" />
 
